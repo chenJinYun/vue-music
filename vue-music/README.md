@@ -62,4 +62,12 @@ npm run build --report
       4.2 to:链接地址
       4.3 当前链接高亮属性：.router-link-active
 
+### jsonp 原理以及使用       
+     0. 实现例子：https://github.com/webmodules/jsonp/blob/master/index.js                                        
+     1.解决跨域：script标签默认可以跨域，
+
+     2.使用jsonp插件，实现jsonp封装请求数据
+
+     3.拼接url参数
+
     
