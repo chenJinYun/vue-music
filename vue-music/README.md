@@ -77,9 +77,11 @@ npm run build --report
 ### 实现轮播图组件
       1.加载的时机：要等到数据回来的时候才加载，解决:v-if
 
-### 抽取scroll组件
-：
+### 抽取scroll组件：better-scroll
 
+### 图片懒加载: vue-lazyload
+      1.引入插件，注册在vue实例上
+      2.img的src替换成v-lazy
 
 
     

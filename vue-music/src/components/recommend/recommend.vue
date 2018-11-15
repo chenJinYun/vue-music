@@ -1,6 +1,6 @@
 <template>
   <div class="recommend" ref="recommend">
-    <div class="recommend-content">
+    <scroll ref='scroll' class="recommend-content" :data="discList">
         <div>
             <div v-if="recommends.length"  class="slider-wrapper">
                 <slider>
@@ -16,7 +16,7 @@
                 <ul>
                     <li v-for="(item,i) in discList" :key=i class='item'>
                         <div class="icon">
-                            <img :src="item.imgurl" height='60' width='60' alt="">
+                            <img @load='loadImage' v-lazy="item.imgurl" height='60' width='60' alt="">
                         </div>
                         <div class="text">
                             <h2 class='name' v-html='item.creator.name'></h2>
@@ -26,7 +26,7 @@
                 </ul>
             </div>
         </div>
-    </div>
+    </scroll>
   </div>
 </template>
 
@@ -34,14 +34,17 @@
 import { getRecommend, getDiscList } from "api/recommend";
 import { ERR_OK } from "api/config";
 import Slider from "base/slider/slider";
+import Scroll from "base/scroll/scroll";
 export default {
   components: {
-    Slider
+    Slider,
+    Scroll
   },
   data() {
     return {
       recommends: [],
-      discList: []
+      discList: [],
+      checkLoding:false
     };
   },
   created() {
@@ -59,10 +62,16 @@ export default {
     _getDiscList() {
       getDiscList().then(res => {
         if (res.code === ERR_OK) {
-            console.log(res.data)
+          console.log(res.data);
           this.discList = res.data.list;
         }
       });
+    },
+    loadImage() {
+      if (!this.checkLoding) {
+        this.$refs.scroll.refresh();
+        this.checkLoding = true;
+      }
     }
   }
 };
@@ -99,7 +108,7 @@ export default {
             .item {
                 display: flex;
                 box-sizing: border-box;
-                align-items: center; //水平居中
+                align-items: center; // 水平居中
                 padding: 0 20px 20px 20px;
 
                 .icon {
@@ -110,8 +119,8 @@ export default {
 
                 .text {
                     display: flex;
-                    flex-direction: column; //纵向排列
-                    justify-content: center; //垂直居中
+                    flex-direction: column; // 纵向排列
+                    justify-content: center; // 垂直居中
                     flex: 1;
                     line-height: 20px;
                     overflow: hidden;
