@@ -83,5 +83,10 @@ npm run build --report
       1.引入插件，注册在vue实例上
       2.img的src替换成v-lazy
 
+### 插件冲突问题：
+      1.fastClick和better-scroll冲突，在需要点击的图片加上needsclick class 即可解决：因为fastclick会识别这个属性并且不阻止点击
+
+### loading组件
+
 
     
