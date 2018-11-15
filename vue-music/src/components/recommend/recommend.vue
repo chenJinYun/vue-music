@@ -1,51 +1,71 @@
 <template>
   <div class="recommend" ref="recommend">
     <div class="recommend-content">
-        <div v-if="recommends.length"  class="slider-wrapper">
-            <slider>
-                <div v-for="item in recommends" :key='item.id'>
-                   <a :href="item.linkUrl">
-                       <img :src="item.picUrl" alt="">
-                   </a>
-                </div>
-            </slider>
-        </div>
-        <div class="recommend-list">
-            <h1 class="list-title">热门歌单推荐</h1>
-            <ul>
-                1
-            </ul>
+        <div>
+            <div v-if="recommends.length"  class="slider-wrapper">
+                <slider>
+                    <div v-for="item in recommends" :key='item.id'>
+                    <a :href="item.linkUrl">
+                        <img :src="item.picUrl" alt="">
+                    </a>
+                    </div>
+                </slider>
+            </div>
+            <div class="recommend-list">
+                <h1 class="list-title">热门歌单推荐</h1>
+                <ul>
+                    <li v-for="(item,i) in discList" :key=i class='item'>
+                        <div class="icon">
+                            <img :src="item.imgurl" height='60' width='60' alt="">
+                        </div>
+                        <div class="text">
+                            <h2 class='name' v-html='item.creator.name'></h2>
+                            <p class="desc" v-html='item.dissname'></p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-import { getRecommend } from 'api/recommend'
-import { ERR_OK } from 'api/config'
-import Slider from 'base/slider/slider'
+import { getRecommend, getDiscList } from "api/recommend";
+import { ERR_OK } from "api/config";
+import Slider from "base/slider/slider";
 export default {
   components: {
     Slider
   },
-  data () {
+  data() {
     return {
-      recommends: []
-    }
+      recommends: [],
+      discList: []
+    };
   },
-  created () {
-    this._getRecommend()
+  created() {
+    this._getRecommend();
+    this._getDiscList();
   },
   methods: {
-    _getRecommend () {
+    _getRecommend() {
       getRecommend().then(res => {
         if (res.code === ERR_OK) {
-          this.recommends = res.data.slider
+          this.recommends = res.data.slider;
         }
-      })
+      });
+    },
+    _getDiscList() {
+      getDiscList().then(res => {
+        if (res.code === ERR_OK) {
+            console.log(res.data)
+          this.discList = res.data.list;
+        }
+      });
     }
   }
-}
+};
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
@@ -79,7 +99,7 @@ export default {
             .item {
                 display: flex;
                 box-sizing: border-box;
-                align-items: center;
+                align-items: center; //水平居中
                 padding: 0 20px 20px 20px;
 
                 .icon {
@@ -90,8 +110,8 @@ export default {
 
                 .text {
                     display: flex;
-                    flex-direction: column;
-                    justify-content: center;
+                    flex-direction: column; //纵向排列
+                    justify-content: center; //垂直居中
                     flex: 1;
                     line-height: 20px;
                     overflow: hidden;
