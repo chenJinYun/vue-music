@@ -89,4 +89,10 @@ npm run build --report
 ### loading组件
 
 
+### 歌手页面
+      1.封装singer类，面向对象的思想，直接new出来，不重复写代码
+      2、组装自己需要的数据结构
+      3.list-view组件，实现联动以及字母排序
+
+
     
