@@ -7,6 +7,7 @@ import router from './router'
 import fastclick from 'fastclick'
 import './common/stylus/index.styl'
 import VueLazyload from 'vue-lazyload'
+import store from './store'
 
 // 去除300浩渺的点击延迟
 fastclick.attach(document.body)
@@ -17,5 +18,6 @@ Vue.use(VueLazyload, {
 new Vue({
   el: '#app',
   render: h => h(App),
+  store,
   router
 })

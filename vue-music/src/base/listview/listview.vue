@@ -15,7 +15,12 @@
             >
                 <h2 class="list-group-title">{{group.title}}</h2>
                 <ul>
-                    <li v-for='(item,index) in group.items' :key="index" class="list-group-item">
+                    <li
+                        v-for='(item,index) in group.items'
+                        :key="index"
+                        @click="selectItem(item)"
+                        class="list-group-item"
+                    >
                         <img class="avatar" v-lazy="item.avatar" alt="">
                         <span class="name">{{item.name}}</span>
                     </li>
@@ -46,7 +51,7 @@
 <script type="text/ecmascript-6">
 import Scroll from "base/scroll/scroll";
 import { getData } from "common/js/dom";
-import Loading from 'base/loading/loading'
+import Loading from "base/loading/loading";
 
 // 每一个字母的高度是18
 const ANCHOR_HEIGHT = 18;
@@ -89,6 +94,9 @@ export default {
     }
   },
   methods: {
+    selectItem(item) {
+        this.$emit('select',item)
+    },
     onShortcutTouchStart(e) {
       let anchorIndex = getData(e.target, "index");
       let firstTouch = e.touches[0]; //第一个手指的位置
@@ -161,7 +169,7 @@ export default {
     },
     diff(newVal) {
       let fixedTop =
-        (newVal > 0 && newVal < TTILE_HEIGHT) ? newVal - TTILE_HEIGHT : 0;
+        newVal > 0 && newVal < TTILE_HEIGHT ? newVal - TTILE_HEIGHT : 0;
       if (this.fixedTop === fixedTop) {
         return;
       }

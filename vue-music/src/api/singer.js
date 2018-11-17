@@ -2,7 +2,7 @@
  * @Author: kim.chen
  * @Date: 2018-11-10 13:55:36
  * @Last Modified by: kim.chen
- * @Last Modified time: 2018-11-16 18:24:43
+ * @Last Modified time: 2018-11-17 14:44:00
  */
 
 import jsonp from 'common/js/jsonp'
@@ -25,5 +25,23 @@ export function getSingerList() {
     g_tk: 1664029744
 
   })
+  return jsonp(url, data, options)
+}
+
+
+export function getSingerDetail(singerId) {
+  const url = 'https://c.y.qq.com/v8/fcg-bin/fcg_v8_singer_track_cp.fcg'
+
+  const data = Object.assign({}, commonParams, {
+    hostUin: 0,
+    needNewCode: 0,
+    platform: 'yqq',
+    order: 'listen',
+    begin: 0,
+    num: 100,
+    songstatus: 1,
+    singermid: singerId
+  })
+
   return jsonp(url, data, options)
 }

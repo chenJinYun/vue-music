@@ -98,7 +98,20 @@ npm run build --report
       5.使用touchstart事件，实现左右两边的联动
       6.touchmove事件，实现
       7.左右联动，需要实时知道滚动的位置，并且要知道滚动的位置对应的那个字母的位置
-      
+
 ### |0 是或0
+
+### import * as getters 引入全部的export 直接用getters.属性名 获取
+
+### 歌手详情页
+      1.二级的vue-router
+      2.添加路由动画，使用transition
+
+### vuex
+      1.状态管理
+      2.使用场景：多个组件的状态共享、路由之间的复杂数据传递
+      3.语法糖：
+            mapGetters：get state
+            mapMutations:set state
 
     

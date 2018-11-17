@@ -1,6 +1,7 @@
 <template>
     <div class='singer'>
-        <list-view :data='singers'></list-view>
+        <list-view :data='singers' @select="selectSinger"></list-view>
+        <router-view></router-view>
     </div>
 </template>
 <script type="text/ecmascript-6">
@@ -8,6 +9,7 @@ import { getSingerList } from "api/singer";
 import { ERR_OK } from "api/config";
 import Singer from "common/js/singer";
 import ListView from "base/listview/listview";
+import { mapMutations } from "vuex";
 
 const HOT_NAME = "热门";
 const HOT_SINGER_LENGTH = 10;
@@ -21,6 +23,12 @@ export default {
     this._getSingerList();
   },
   methods: {
+    selectSinger(singer) {
+      this.$router.push({
+        path: `/singer/${singer.id}`
+      });
+      this.setSinger(singer);
+    },
     _getSingerList() {
       getSingerList().then(res => {
         if (ERR_OK == res.code) {
@@ -76,7 +84,10 @@ export default {
         return a.title.charCodeAt(0) - b.title.charCodeAt(0);
       });
       return hot.concat(ret);
-    }
+    },
+    ...mapMutations({
+      setSinger: "SET_SINGER"
+    })
   },
   components: {
     ListView
@@ -85,9 +96,9 @@ export default {
 </script>
 <style lang="stylus" scoped rel="styleheet/stylus">
 .singer {
-    position: fixed;
-    top: 88px;
-    bottom: 0;
-    width: 100%;
+  position: fixed;
+  top: 88px;
+  bottom: 0;
+  width: 100%;
 }
 </style>
