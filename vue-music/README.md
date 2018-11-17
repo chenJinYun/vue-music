@@ -113,5 +113,14 @@ npm run build --report
       3.语法糖：
             mapGetters：get state
             mapMutations:set state
+### 路由：
+      1.this.$router.back();  返回上一级
+      2.this.$router.push({path:''}) 路由跳转
+
+
+### dom工具类
+      1.获取元素
+      2.获取属性值或者设置属性值
+      3.获取供应商，即:什么浏览器内核，做兼容
 
     
