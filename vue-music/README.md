@@ -78,6 +78,7 @@ npm run build --report
       1.加载的时机：要等到数据回来的时候才加载，解决:v-if
 
 ### 抽取scroll组件：better-scroll
+      1.scrollToElement，滚动到相应的元素
 
 ### 图片懒加载: vue-lazyload
       1.引入插件，注册在vue实例上
@@ -93,6 +94,11 @@ npm run build --report
       1.封装singer类，面向对象的思想，直接new出来，不重复写代码
       2、组装自己需要的数据结构
       3.list-view组件，实现联动以及字母排序
-
+      4.设置/获取attribute的方法 getData
+      5.使用touchstart事件，实现左右两边的联动
+      6.touchmove事件，实现
+      7.左右联动，需要实时知道滚动的位置，并且要知道滚动的位置对应的那个字母的位置
+      
+### |0 是或0
 
     
