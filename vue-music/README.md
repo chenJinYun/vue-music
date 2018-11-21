@@ -125,5 +125,6 @@ npm run build --report
 
 ### 播放器
       1.VUEX 数据设计
+      2.添加动画， 动画钩子
 
     

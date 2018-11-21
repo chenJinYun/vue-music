@@ -24,7 +24,7 @@
             @scroll='scroll'
         >
             <div class="song-list-wrapper">
-                <song-list :songs='songs'></song-list>
+                <song-list :songs='songs' @select='selectItem'></song-list>
             </div>
         <div class="loading-container" v-show='!songs'>
             <loading></loading>
@@ -36,7 +36,8 @@
 import Scroll from "base/scroll/scroll";
 import SongList from "base/song-list/song-list";
 import { prefixStyle } from "common/js/dom";
-import Loading from 'base/loading/loading'
+import Loading from "base/loading/loading";
+import { mapActions } from "vuex";
 
 const RESERVED_HEIGHT = 40;
 const transfrom = prefixStyle("transform");
@@ -44,7 +45,8 @@ const backdrop = prefixStyle("backdrop-filter");
 export default {
   components: {
     Scroll,
-    SongList
+    SongList,
+    Loading
   },
   props: {
     bgImage: {
@@ -91,12 +93,11 @@ export default {
         zIndex = 10;
         this.$refs.bgImage.style.paddingTop = 0;
         this.$refs.bgImage.style.height = `${RESERVED_HEIGHT}px`;
-        this.$refs.playBtn.style.display='none'
+        this.$refs.playBtn.style.display = "none";
       } else {
         this.$refs.bgImage.style.paddingTop = "70%";
         this.$refs.bgImage.style.height = 0;
-        this.$refs.playBtn.style.display=''
-
+        this.$refs.playBtn.style.display = "";
       }
       this.$refs.bgImage.style.zIndex = zIndex;
       this.$refs.bgImage.style[transfrom] = `scale(${scale})`;
@@ -117,7 +118,13 @@ export default {
     },
     back() {
       this.$router.back(); //返回上一级
-    }
+    },
+    selectItem(item, index) {
+      // 设置vuex的播放器数据
+      // playlist currentlist
+      this.selectPlay({ list: this.songs, index });
+    },
+    ...mapActions(['selectPlay'])
   }
 };
 </script>
