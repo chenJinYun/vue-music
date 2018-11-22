@@ -126,5 +126,6 @@ npm run build --report
 ### 播放器
       1.VUEX 数据设计
       2.添加动画， 动画钩子
+      3.播放功能 audio -> play() 暂停：pause()
 
     

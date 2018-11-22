@@ -20,7 +20,7 @@
             <div class="middle">
                 <div class="middle-l">
                     <div class="cd-wrapper" ref='cdWrapper'>
-                        <div class="cd">
+                        <div class="cd" :class="cdCls">
                             <img :src="currentSong.image" alt="" class="image">
                         </div>
                     </div>
@@ -31,14 +31,14 @@
                     <div class="icon i-left">
                         <i class="icon-sequence"></i>
                     </div>
-                    <div class="icon i-left">
-                        <i class="icon-prev"></i>
+                    <div class="icon i-left" :class="disabledCls">
+                        <i class="icon-prev" @click='prev'></i>
                     </div>
-                    <div class="icon i-center">
-                        <i class="icon-play"></i>
+                    <div class="icon i-center" :class="disabledCls">
+                        <i :class="playIcon" @click='togglePlaying'></i>
                     </div>
-                    <div class="icon i-right">
-                        <i class="icon-next"></i>
+                    <div class="icon i-right" :class="disabledCls">
+                        <i class="icon-next" @click='next'></i>
                     </div>
                     <div class="icon i-right">
                         <i class="icon icon-not-favorite"></i>
@@ -51,18 +51,21 @@
       <transition name="mini">
         <div class="mini-player" v-show="!fullScreen" @click="open">
             <div class="icon">
-                <img width="40" height="40" alt="" :src="currentSong.image">
+                <img :class="cdCls" width="40" height="40" alt="" :src="currentSong.image">
             </div>
             <div class="text">
                 <h2 class="name" v-html="currentSong.name"></h2>
                 <p class="desc" v-html="currentSong.singer"></p>
             </div>
-            <div class="control"></div>
+            <div class="control">
+                <i :class="miniIcon" @click.stop='togglePlaying'></i>
+            </div>
             <div class="control">
                 <i class="icon-playlist"></i>
             </div>
         </div>
       </transition>
+      <audio :src="song" ref='audio' @canplay="ready" @error="error"></audio>
   </div>
 </template>
 
@@ -72,12 +75,54 @@ import animations from "create-keyframe-animation";
 import { prefixStyle } from "common/js/dom";
 
 const transform = prefixStyle("transform");
-
+const testSong =
+  "http://m10.music.126.net/20181122194825/721319c27189e95ba7361ff2caf43168/ymusic/352e/0a9b/ce05/b2040b210e35d5c9e73457769b3f2e7b.mp3";
 export default {
+  data() {
+    return {
+      songReady: false
+    };
+  },
   computed: {
-    ...mapGetters(["fullScreen", "playList", "currentSong"])
+    cdCls() {
+      return this.playing ? "play" : "play pause";
+    },
+    playIcon() {
+      return this.playing ? "icon-pause" : "icon-play";
+    },
+    miniIcon() {
+      return this.playing ? "icon-pause-mini" : "icon-play-mini";
+    },
+    disabledCls(){
+        return this.songReady ?'':'disable'
+    },
+    ...mapGetters([
+      "fullScreen",
+      "playList",
+      "currentSong",
+      "playing",
+      "currentIndex"
+    ])
+  },
+  created() {
+    this.song = testSong;
+  },
+  watch: {
+    currentSong() {
+      // dom渲染完毕
+      this.$nextTick(() => {
+        this.$refs.audio.play();
+      });
+    },
+    playing(newPlaying) {
+      const audio = this.$refs.audio;
+      this.$nextTick(() => {
+        newPlaying ? audio.play() : audio.pause();
+      });
+    }
   },
   methods: {
+    //   全屏以及小屏
     back() {
       this.setFullScreen(false);
     },
@@ -136,8 +181,57 @@ export default {
       const y = window.innerHeight - paddingBottom - width / 2 - paddingTop;
       return { x, y, scale };
     },
+    // 控制歌曲播放
+    togglePlaying() {
+      if (!this.ready) {
+        return;
+      }
+      this.setPlayingState(!this.playing);
+    },
+    //上一首，以及下一首
+    next() {
+      if (!this.ready) {
+        return;
+      }
+      let index = this.currentIndex + 1;
+      //   最后一首，直接为第一首
+      if (index === this.playList.length) {
+        index = 0;
+      }
+      this.setCurrentIndex(index);
+      if (!this.playing) {
+        this.togglePlaying();
+      }
+      this.songReady = false;
+    },
+    prev() {
+      //防止过度点击
+      if (!this.ready) {
+        return;
+      }
+      let index = this.currentIndex - 1;
+      //   最后一首，直接为第一首
+      if (index === -1) {
+        index = this.playList.length - 1;
+      }
+      this.setCurrentIndex(index);
+      if (!this.playing) {
+        this.togglePlaying();
+      }
+      this.songReady = false;
+    },
+    //    歌曲加载完成才可以点击
+    ready() {
+      this.songReady = true;
+    },
+    // 加载失败也可以播放
+    error() {
+      this.songReady = true;
+    },
     ...mapMutations({
-      setFullScreen: "SET_FULL_SCREEN"
+      setFullScreen: "SET_FULL_SCREEN",
+      setPlayingState: "SET_PLAYING_STATE",
+      setCurrentIndex: "SET_CURRENT_INDEX"
     })
   }
 };
