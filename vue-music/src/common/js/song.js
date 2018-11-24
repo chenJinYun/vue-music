@@ -2,8 +2,15 @@
  * @Author: kim.chen 
  * @Date: 2018-11-17 14:49:09 
  * @Last Modified by: kim.chen
- * @Last Modified time: 2018-11-17 14:59:07
+ * @Last Modified time: 2018-11-24 13:37:07
  */
+
+import {
+  getLyric
+} from 'api/song'
+import {
+  ERR_OK
+} from 'api/config'
 export default class Song {
   constructor({
     id,
@@ -23,6 +30,15 @@ export default class Song {
     this.duration = duration
     this.image = image;
     this.url = url
+  }
+
+  getLyric() {
+    getLyric(this.mid).then((res) => {
+      if (res.code === ERR_OK) {
+        this.lyric = res.lyric
+        console.log(this.lyric)
+      }
+    })
   }
 }
 

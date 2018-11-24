@@ -2,7 +2,7 @@
  * @Author: kim.chen 
  * @Date: 2018-11-21 18:58:05 
  * @Last Modified by: kim.chen
- * @Last Modified time: 2018-11-24 13:24:08
+ * @Last Modified time: 2018-11-24 13:24:41
  */
 import * as types from './mutation-types'
 import {playMode} from 'common/js/config'

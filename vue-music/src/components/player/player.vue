@@ -151,6 +151,7 @@ export default {
       // dom渲染完毕
       this.$nextTick(() => {
         this.$refs.audio.play();
+        this.currentSong.getLyric()
       });
     },
     playing(newPlaying) {

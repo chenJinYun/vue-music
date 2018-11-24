@@ -126,7 +126,7 @@ npm run build --report
 ### util工具类
       1.arr.slice()实现数组的深复制
       2.shuffle方法，实现数组的打乱
-      
+
 ### 播放器
       1.VUEX 数据设计
       2.添加动画， 动画钩子
@@ -142,7 +142,8 @@ npm run build --report
       1.svg的使用：
 
 ### 播放模式的切换
-      1.
+      
+### 歌曲歌词
 
 
 
