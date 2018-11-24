@@ -143,7 +143,9 @@ npm run build --report
 
 ### 播放模式的切换
       
-### 歌曲歌词
+### 歌曲歌词 
+      1.js-base64 解码base64
+      2.lyric-parser 歌词渲染
 
 
 

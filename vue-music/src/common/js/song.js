@@ -2,7 +2,7 @@
  * @Author: kim.chen 
  * @Date: 2018-11-17 14:49:09 
  * @Last Modified by: kim.chen
- * @Last Modified time: 2018-11-24 13:37:07
+ * @Last Modified time: 2018-11-24 14:04:33
  */
 
 import {
@@ -11,6 +11,9 @@ import {
 import {
   ERR_OK
 } from 'api/config'
+import {
+  Base64
+} from 'js-base64'
 export default class Song {
   constructor({
     id,
@@ -33,11 +36,18 @@ export default class Song {
   }
 
   getLyric() {
-    getLyric(this.mid).then((res) => {
-      if (res.code === ERR_OK) {
-        this.lyric = res.lyric
-        console.log(this.lyric)
-      }
+    if (this.lyric) {
+      return Promise.resolve(this.lyric)
+    }
+    return new Promise((resolve, reject) => {
+      getLyric(this.mid).then((res) => {
+        if (res.code === ERR_OK) {
+          this.lyric = Base64.decode(res.lyric)
+          resolve(this.lyric)
+        } else {
+          reject('no lyric')
+        }
+      })
     })
   }
 }
@@ -51,7 +61,9 @@ export function createSong(musicData) {
     album: musicData.albumname,
     duration: musicData.interval,
     image: `https://y.gtimg.cn/music/photo_new/T002R300x300M000${musicData.albummid}.jpg?max_age=2592000`,
-    url: `http://ws.stream.qqmusic.qq.com/${musicData.songid}.m4a?fromtag=46`
+    // url: `http://ws.stream.qqmusic.qq.com/${musicData.songid}.m4a?fromtag=46`
+    url:`http://117.21.183.19/amobile.music.tc.qq.com/${musicData.songid}.m4a?fromtag=66`
+
   })
 }
 
