@@ -27,6 +27,13 @@
                 </div>
             </div>
             <div class="bottom">
+                <div class="progress-wrapper">
+                    <span class="time time-l">{{format(currentTime)}}</span>
+                    <div class="progress-bar-wrapper">
+                        <progress-bar :percent='percent' @percentChange="onPregressBarChange"></progress-bar>
+                    </div>
+                    <span class="time time-r">{{format(currentSong.duration)}}</span>
+                </div>
                 <div class="operators">
                     <div class="icon i-left">
                         <i class="icon-sequence"></i>
@@ -65,7 +72,7 @@
             </div>
         </div>
       </transition>
-      <audio :src="song" ref='audio' @canplay="ready" @error="error"></audio>
+      <audio :src="song" ref='audio' @canplay="ready" @error="error" @timeupdate="updatetTime"></audio>
   </div>
 </template>
 
@@ -73,14 +80,19 @@
 import { mapGetters, mapMutations } from "vuex";
 import animations from "create-keyframe-animation";
 import { prefixStyle } from "common/js/dom";
+import ProgressBar from "base/progress-bar/progress-bar";
 
 const transform = prefixStyle("transform");
 const testSong =
   "http://m10.music.126.net/20181122194825/721319c27189e95ba7361ff2caf43168/ymusic/352e/0a9b/ce05/b2040b210e35d5c9e73457769b3f2e7b.mp3";
 export default {
+  components: {
+    ProgressBar
+  },
   data() {
     return {
-      songReady: false
+      songReady: false,
+      currentTime: 0
     };
   },
   computed: {
@@ -93,8 +105,12 @@ export default {
     miniIcon() {
       return this.playing ? "icon-pause-mini" : "icon-play-mini";
     },
-    disabledCls(){
-        return this.songReady ?'':'disable'
+    disabledCls() {
+      return this.songReady ? "" : "disable";
+    },
+    // 歌曲时长比例
+    percent() {
+      return this.currentTime / this.currentSong.duration;
     },
     ...mapGetters([
       "fullScreen",
@@ -227,6 +243,33 @@ export default {
     // 加载失败也可以播放
     error() {
       this.songReady = true;
+    },
+    // 控制播放时间
+    updatetTime(e) {
+      // 获取播放时间
+      this.currentTime = e.target.currentTime;
+    },
+    // 格式化时间戳
+    format(interval) {
+      interval = interval | 0;
+      const mintue = (interval / 60) | 0;
+      const second = this._pad(interval % 60);
+      return `${mintue}:${second}`;
+    },
+    // 用0补位
+    _pad(num, n = 2) {
+      let len = num.toString().length;
+      while (len < n) {
+        num = "0" + num;
+        len++;
+      }
+      return num;
+    },
+    onPregressBarChange(percent) {
+      this.$refs.audio.currentTime = this.currentSong.duration * percent;
+      if (!this.playing) {
+        this.togglePlaying();
+      }
     },
     ...mapMutations({
       setFullScreen: "SET_FULL_SCREEN",

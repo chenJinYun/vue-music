@@ -99,7 +99,7 @@ npm run build --report
       6.touchmove事件，实现
       7.左右联动，需要实时知道滚动的位置，并且要知道滚动的位置对应的那个字母的位置
 
-### |0 是或0
+### |0 是或0 可以用作向上取整
 
 ### import * as getters 引入全部的export 直接用getters.属性名 获取
 
@@ -127,5 +127,11 @@ npm run build --report
       1.VUEX 数据设计
       2.添加动画， 动画钩子
       3.播放功能 audio -> play() 暂停：pause()
+      4.获取歌曲时间 使用audio的timeupdate事件，获取当前播放的时间
+      5.格式化时间函数format,以及补零
 
+### 进度条组件
+      1.可以根据当前播放时间以及歌曲总时长计算出比例
+      2.touch事件实现进度条的操作
+      3.
     
