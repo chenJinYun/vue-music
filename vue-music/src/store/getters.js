@@ -2,7 +2,7 @@
  * @Author: kim.chen 
  * @Date: 2018-11-17 14:01:00 
  * @Last Modified by: kim.chen
- * @Last Modified time: 2018-11-21 18:37:02
+ * @Last Modified time: 2018-11-24 12:51:37
  */
 export const singer = state => state.singer
 

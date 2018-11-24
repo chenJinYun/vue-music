@@ -35,8 +35,8 @@
                     <span class="time time-r">{{format(currentSong.duration)}}</span>
                 </div>
                 <div class="operators">
-                    <div class="icon i-left">
-                        <i class="icon-sequence"></i>
+                    <div class="icon i-left" @click='changeMode'>
+                        <i :class="iconMode"></i>
                     </div>
                     <div class="icon i-left" :class="disabledCls">
                         <i class="icon-prev" @click='prev'></i>
@@ -77,7 +77,7 @@
             </div>
         </div>
       </transition>
-      <audio :src="song" ref='audio' @canplay="ready" @error="error" @timeupdate="updatetTime"></audio>
+      <audio :src="song" ref='audio' @canplay="ready" @error="error" @timeupdate="updatetTime" @ended="end"></audio>
   </div>
 </template>
 
@@ -87,9 +87,12 @@ import animations from "create-keyframe-animation";
 import { prefixStyle } from "common/js/dom";
 import ProgressBar from "base/progress-bar/progress-bar";
 import ProgressCircle from "base/progress-circle/progress-circle";
+import { playMode } from "common/js/config";
+import { shuffle } from "common/js/util";
 
 const transform = prefixStyle("transform");
-const testSong ='http://117.21.183.19/amobile.music.tc.qq.com/C400002E3MtF0IAMMY.m4a?guid=1073188134&vkey=5799B068DF7EB3BC1FD954A9136163121AEBE4D740F2BEE47C91A32998C0F70ADB7C710EAF737BFA6354A3293ACB9EE5714549C24B41958A&uin=0&fromtag=66'
+const testSong =
+  "http://117.21.183.19/amobile.music.tc.qq.com/C400002E3MtF0IAMMY.m4a?guid=1073188134&vkey=5799B068DF7EB3BC1FD954A9136163121AEBE4D740F2BEE47C91A32998C0F70ADB7C710EAF737BFA6354A3293ACB9EE5714549C24B41958A&uin=0&fromtag=66";
 export default {
   components: {
     ProgressBar,
@@ -99,7 +102,7 @@ export default {
     return {
       songReady: false,
       currentTime: 0,
-      radius:32
+      radius: 32
     };
   },
   computed: {
@@ -119,19 +122,32 @@ export default {
     percent() {
       return this.currentTime / this.currentSong.duration;
     },
+    // 播放模式
+    iconMode() {
+      return this.mode === playMode.sequence
+        ? "icon-sequence"
+        : this.mode === playMode.loop
+          ? "icon-loop"
+          : "icon-random";
+    },
     ...mapGetters([
       "fullScreen",
       "playList",
       "currentSong",
       "playing",
-      "currentIndex"
+      "currentIndex",
+      "mode",
+      "sequenceList"
     ])
   },
   created() {
     this.song = testSong;
   },
   watch: {
-    currentSong() {
+    currentSong(newVal, oldVal) {
+      if (newVal.id === oldVal.id) {
+        return;
+      }
       // dom渲染完毕
       this.$nextTick(() => {
         this.$refs.audio.play();
@@ -211,6 +227,18 @@ export default {
       }
       this.setPlayingState(!this.playing);
     },
+    // 播放完毕，切换到下一首
+    end() {
+      if (this.mode === playMode.loop) {
+        this.loop();
+        return;
+      }
+      this.next();
+    },
+    loop() {
+      this.$refs.audio.currentTime = 0;
+      this.$refs.audio.play()
+    },
     //上一首，以及下一首
     next() {
       if (!this.ready) {
@@ -272,16 +300,36 @@ export default {
       }
       return num;
     },
+    // 进度条进度改变相应的改变歌曲的播放时间
     onPregressBarChange(percent) {
       this.$refs.audio.currentTime = this.currentSong.duration * percent;
       if (!this.playing) {
         this.togglePlaying();
       }
     },
+    // 改变播放模式
+    changeMode() {
+      const mode = (this.mode + 1) % 3;
+      this.setPlayMode(mode);
+      let list = this.sequenceList;
+      if (mode === playMode.random) {
+        list = shuffle(this.sequenceList);
+      }
+      this.resetCurrentIndex(list);
+      this.setPlayList(list);
+    },
+    resetCurrentIndex(list) {
+      let index = list.findIndex(item => {
+        return item.id === this.currentSong.id;
+      });
+      this.setCurrentIndex(index);
+    },
     ...mapMutations({
       setFullScreen: "SET_FULL_SCREEN",
       setPlayingState: "SET_PLAYING_STATE",
-      setCurrentIndex: "SET_CURRENT_INDEX"
+      setCurrentIndex: "SET_CURRENT_INDEX",
+      setPlayMode: "SET_PLAY_MODE",
+      setPlayList: "SET_PLAYLIST"
     })
   }
 };

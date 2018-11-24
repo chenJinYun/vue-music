@@ -2,7 +2,7 @@
  * @Author: kim.chen 
  * @Date: 2018-11-17 13:59:05 
  * @Last Modified by: kim.chen
- * @Last Modified time: 2018-11-21 18:43:45
+ * @Last Modified time: 2018-11-24 12:50:55
  */
 import * as types from './mutation-types'
 
@@ -20,7 +20,7 @@ const mutations = {
     state.playList = list
   },
   [types.SET_SEQUENCELIST](state, list) {
-    state.sequenceLit = list
+    state.sequenceList = list
   },
   [types.SET_PLAY_MODE](state, mode) {
     state.mode = mode
