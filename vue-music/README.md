@@ -133,5 +133,25 @@ npm run build --report
 ### 进度条组件
       1.可以根据当前播放时间以及歌曲总时长计算出比例
       2.touch事件实现进度条的操作
-      3.
+
+### 圆形进度条组件
+      1.svg的使用：
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+###  song text
+      1.http://117.21.183.19/amobile.music.tc.qq.com/C400002E3MtF0IAMMY.m4a?guid=1073188134&vkey=5799B068DF7EB3BC1FD954A9136163121AEBE4D740F2BEE47C91A32998C0F70ADB7C710EAF737BFA6354A3293ACB9EE5714549C24B41958A&uin=0&fromtag=66
+      
+
     

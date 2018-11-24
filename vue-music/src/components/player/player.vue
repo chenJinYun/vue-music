@@ -65,7 +65,12 @@
                 <p class="desc" v-html="currentSong.singer"></p>
             </div>
             <div class="control">
-                <i :class="miniIcon" @click.stop='togglePlaying'></i>
+                <progress-circle
+                    :radius="radius"
+                    :percent="percent"
+                >
+                    <i :class="miniIcon" class="icon-mini" @click.stop='togglePlaying'></i>
+                </progress-circle>
             </div>
             <div class="control">
                 <i class="icon-playlist"></i>
@@ -81,18 +86,20 @@ import { mapGetters, mapMutations } from "vuex";
 import animations from "create-keyframe-animation";
 import { prefixStyle } from "common/js/dom";
 import ProgressBar from "base/progress-bar/progress-bar";
+import ProgressCircle from "base/progress-circle/progress-circle";
 
 const transform = prefixStyle("transform");
-const testSong =
-  "http://m10.music.126.net/20181122194825/721319c27189e95ba7361ff2caf43168/ymusic/352e/0a9b/ce05/b2040b210e35d5c9e73457769b3f2e7b.mp3";
+const testSong ='http://117.21.183.19/amobile.music.tc.qq.com/C400002E3MtF0IAMMY.m4a?guid=1073188134&vkey=5799B068DF7EB3BC1FD954A9136163121AEBE4D740F2BEE47C91A32998C0F70ADB7C710EAF737BFA6354A3293ACB9EE5714549C24B41958A&uin=0&fromtag=66'
 export default {
   components: {
-    ProgressBar
+    ProgressBar,
+    ProgressCircle
   },
   data() {
     return {
       songReady: false,
-      currentTime: 0
+      currentTime: 0,
+      radius:32
     };
   },
   computed: {
