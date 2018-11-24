@@ -38,8 +38,11 @@ import { getRecommend, getDiscList } from "api/recommend";
 import { ERR_OK } from "api/config";
 import Slider from "base/slider/slider";
 import Scroll from "base/scroll/scroll";
-import Loading from 'base/loading/loading'
+import Loading from "base/loading/loading";
+import { playListMixin } from "common/js/mixin";
+
 export default {
+  mixins: [playListMixin],
   components: {
     Slider,
     Scroll,
@@ -49,7 +52,7 @@ export default {
     return {
       recommends: [],
       discList: [],
-      checkLoding:false
+      checkLoding: false
     };
   },
   created() {
@@ -57,6 +60,11 @@ export default {
     this._getDiscList();
   },
   methods: {
+    handlePlayList(playlist) {
+      const bottom = playlist.length > 0 ? "60px" : "";
+      this.$refs.recommend.style.bottom = bottom;
+      this.$refs.scroll.refresh();
+    },
     _getRecommend() {
       getRecommend().then(res => {
         if (res.code === ERR_OK) {
@@ -67,7 +75,6 @@ export default {
     _getDiscList() {
       getDiscList().then(res => {
         if (res.code === ERR_OK) {
-          console.log(res.data);
           this.discList = res.data.list;
         }
       });

@@ -99,7 +99,10 @@ npm run build --report
       6.touchmove事件，实现
       7.左右联动，需要实时知道滚动的位置，并且要知道滚动的位置对应的那个字母的位置
 
-### |0 是或0 可以用作向上取整
+###  知识点
+      1.|0 是或0 可以用作向上取整
+      2.this.$refs.[component名字].$el.style ，如果是vue组件，则需要用$el才能操作dom
+      3.arr.slice()实现数组的深复制
 
 ### import * as getters 引入全部的export 直接用getters.属性名 获取
 
@@ -146,6 +149,19 @@ npm run build --report
 ### 歌曲歌词 
       1.js-base64 解码base64
       2.lyric-parser 歌词渲染
+
+### 多个组件相同处理 mixins
+      0.定义使用与vue组件一致，也有mounted等钩子以及method等属性
+      1.相当于是，一份代码放在一个地方那个管理，需要使用跟这个代码的组件，引入mixin，就相当于在组件中加入了这段代码
+      2.组件定义同名的函数，会覆盖mixin中的同名函数，如果组件没有定义同名函数，会使用mixin中定义的函数
+            2.1 mixin中的函数可以定义为默认行为，也就是组件没有定义同名函数，则默认使用mixin函数的行为
+            2.2如果没有默认行为，则抛一个异常，告知外层组件需要定义一个与mixin同名函数
+      3.组件使用mixin方式：
+
+            mixins: [名字]，可以传入多个
+
+            相当于与组件的代码做了一个merger行为，组件同名方法会覆盖mixin中的同名方法
+            
 
 
 
