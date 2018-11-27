@@ -2,7 +2,7 @@
  * @Author: kim.chen 
  * @Date: 2018-11-17 14:01:00 
  * @Last Modified by: kim.chen
- * @Last Modified time: 2018-11-24 12:51:37
+ * @Last Modified time: 2018-11-27 18:39:32
  */
 export const singer = state => state.singer
 
@@ -21,3 +21,5 @@ export const currentIndex = state => state.currentIndex
 export const currentSong = state => {
   return state.playList[state.currentIndex] || {}
 }
+
+export const disc = state => state.disc

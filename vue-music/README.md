@@ -163,7 +163,8 @@ npm run build --report
             相当于与组件的代码做了一个merger行为，组件同名方法会覆盖mixin中的同名方法
             
 
-
+### 歌单详情页
+      1.vuex保存disc
 
 
 
