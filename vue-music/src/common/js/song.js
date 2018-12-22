@@ -2,7 +2,7 @@
  * @Author: kim.chen 
  * @Date: 2018-11-17 14:49:09 
  * @Last Modified by: kim.chen
- * @Last Modified time: 2018-11-24 14:04:33
+ * @Last Modified time: 2018-12-22 16:27:57
  */
 
 import {
@@ -67,7 +67,7 @@ export function createSong(musicData) {
   })
 }
 
-function filterSinger(singer) {
+export function filterSinger(singer) {
   let ret = []
   if (!singer) {
     return ''

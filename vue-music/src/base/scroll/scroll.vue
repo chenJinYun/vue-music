@@ -1,7 +1,7 @@
 <template>
-    <div ref="wrapper">
-        <slot></slot>
-    </div>
+  <div ref="wrapper">
+    <slot></slot>
+  </div>
 </template>
 <script>
 import BScroll from "better-scroll";
@@ -21,6 +21,14 @@ export default {
     },
     listenScroll: {
       //要不要监听滚动事件
+      type: Boolean,
+      default: false
+    },
+    pullup: {
+      type: Boolean,
+      default: false
+    },
+    beforeScroll: {
       type: Boolean,
       default: false
     }
@@ -45,6 +53,20 @@ export default {
         this.scroll.on("scroll", pos => {
           me.$emit("scroll", pos);
         });
+      }
+
+      if (this.pullup) {
+        this.scroll.on("scrollEnd", () => {
+          if (this.scroll.Y <= this.scroll.maxScrollY + 50) {
+            this.$emit("scrollToEnd");
+          }
+        });
+      }
+
+      if(this.beforeScroll){
+        this.scroll.on('beforeScrollStart',()=> {
+          this.$emit('beforeScroll')
+        })
       }
     },
     enable() {

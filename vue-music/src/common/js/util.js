@@ -2,7 +2,7 @@
  * @Author: kim.chen 
  * @Date: 2018-11-24 12:36:33 
  * @Last Modified by: kim.chen
- * @Last Modified time: 2018-11-24 13:14:55
+ * @Last Modified time: 2018-12-22 15:53:15
  */
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
@@ -16,4 +16,16 @@ export function shuffle(arr) {
     _arr[j] = t
   }
   return _arr
+}
+
+export function debounce(func, delay) {
+  let timer
+  return function (...args) {
+    if (timer) {
+      clearTimeout(timer)
+    }
+    timer = setTimeout(() => {
+      func.apply(this, args)
+    }, delay);
+  }
 }
