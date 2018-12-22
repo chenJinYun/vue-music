@@ -2,7 +2,7 @@
  * @Author: kim.chen 
  * @Date: 2018-11-17 13:58:47 
  * @Last Modified by: kim.chen
- * @Last Modified time: 2018-11-27 18:38:44
+ * @Last Modified time: 2018-12-22 11:49:04
  */
 export const SET_SINGER = 'SET_SINGER'
 
@@ -19,3 +19,5 @@ export const SET_PLAY_MODE = 'SET_PLAY_MODE'
 export const SET_CURRENT_INDEX = 'SET_CURRENT_INDEX'
 
 export const SET_DISC = 'SET_DISC'
+
+export const SET_TOP_LIST = 'SET_TOP_LIST'

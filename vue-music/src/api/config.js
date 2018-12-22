@@ -2,10 +2,10 @@
  * @Author: kim.chen
  * @Date: 2018-11-10 14:00:06
  * @Last Modified by: kim.chen
- * @Last Modified time: 2018-11-10 14:17:16
+ * @Last Modified time: 2018-12-22 11:12:37
  */
 export const commonParams = {
-  g_tk: 5381,
+  g_tk: 67232076,
   inCharset: 'utf-8',
   outCharset: 'utf-8',
   notice: 0,

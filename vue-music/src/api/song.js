@@ -2,7 +2,7 @@
  * @Author: kim.chen 
  * @Date: 2018-11-24 13:26:14 
  * @Last Modified by: kim.chen
- * @Last Modified time: 2018-11-24 13:30:19
+ * @Last Modified time: 2018-12-22 11:12:47
  */
 import axios from 'axios'
 import {
@@ -18,7 +18,6 @@ export function getLyric(mid) {
     platform: 'yqq',
     hostUin: 0,
     needNewCode: 0,
-    g_tk: 67232076,
     format: 'json'
   })
   return axios.get(url, {
