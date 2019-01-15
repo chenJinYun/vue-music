@@ -98,11 +98,12 @@
                     <i :class="miniIcon" class="icon-mini" @click.stop='togglePlaying'></i>
                 </progress-circle>
             </div>
-            <div class="control">
+            <div class="control" @click.stop="showPlaylist">
                 <i class="icon-playlist"></i>
             </div>
         </div>
       </transition>
+      <play-list ref='playList'></play-list>
       <audio :src="song" ref='audio' @canplay="ready" @error="error" @timeupdate="updatetTime" @ended="end"></audio>
   </div>
 </template>
@@ -117,16 +118,20 @@ import { playMode } from "common/js/config";
 import { shuffle } from "common/js/util";
 import Lyric from "lyric-parser";
 import Scroll from "base/scroll/scroll";
+import PlayList from 'components/playList/playList'
+import {playerMixin} from 'common/js/mixin'
 
 const transform = prefixStyle("transform");
 const transitionDuration = prefixStyle("transitionDuration");
 const testSong =
   "http://117.21.183.19/amobile.music.tc.qq.com/C400002E3MtF0IAMMY.m4a?guid=1073188134&vkey=5799B068DF7EB3BC1FD954A9136163121AEBE4D740F2BEE47C91A32998C0F70ADB7C710EAF737BFA6354A3293ACB9EE5714549C24B41958A&uin=0&fromtag=66";
 export default {
+  mixins:[playerMixin],
   components: {
     ProgressBar,
     ProgressCircle,
-    Scroll
+    Scroll,
+    PlayList
   },
   data() {
     return {
@@ -156,22 +161,10 @@ export default {
     percent() {
       return this.currentTime / this.currentSong.duration;
     },
-    // 播放模式
-    iconMode() {
-      return this.mode === playMode.sequence
-        ? "icon-sequence"
-        : this.mode === playMode.loop
-          ? "icon-loop"
-          : "icon-random";
-    },
     ...mapGetters([
       "fullScreen",
-      "playList",
-      "currentSong",
       "playing",
-      "currentIndex",
-      "mode",
-      "sequenceList"
+      "currentIndex"
     ])
   },
   created() {
@@ -180,7 +173,7 @@ export default {
   },
   watch: {
     currentSong(newVal, oldVal) {
-      if (newVal.id === oldVal.id) {
+      if (newVal.id === oldVal.id || !newVal.id) {
         return;
       }
       if (this.currentLyric) {
@@ -366,23 +359,8 @@ export default {
         this.currentLyric.seek(currentTime * 1000);
       }
     },
-    // 改变播放模式
-    changeMode() {
-      const mode = (this.mode + 1) % 3;
-      this.setPlayMode(mode);
-      let list = this.sequenceList;
-      if (mode === playMode.random) {
-        list = shuffle(this.sequenceList);
-      }
-      this.resetCurrentIndex(list);
-      this.setPlayList(list);
-    },
-    resetCurrentIndex(list) {
-      let index = list.findIndex(item => {
-        return item.id === this.currentSong.id;
-      });
-      this.setCurrentIndex(index);
-    },
+  
+  
     // 获取歌词
     getLyric() {
       this.currentSong
@@ -470,12 +448,12 @@ export default {
       this.$refs.middleL.style[transitionDuration] = `${time}ms`;
       this.$refs.middleL.style.opacity = opacity;
     },
+    // playlist
+    showPlaylist(){
+      this.$refs.playList.show();
+    },
     ...mapMutations({
       setFullScreen: "SET_FULL_SCREEN",
-      setPlayingState: "SET_PLAYING_STATE",
-      setCurrentIndex: "SET_CURRENT_INDEX",
-      setPlayMode: "SET_PLAY_MODE",
-      setPlayList: "SET_PLAYLIST"
     })
   }
 };

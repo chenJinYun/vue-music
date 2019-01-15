@@ -103,6 +103,7 @@ npm run build --report
       1.|0 是或0 可以用作向上取整
       2.this.$refs.[component名字].$el.style ，如果是vue组件，则需要用$el才能操作dom
       3.arr.slice()实现数组的深复制
+      4.@click.stop阻止事件冒泡
 
 ### import * as getters 引入全部的export 直接用getters.属性名 获取
 
@@ -178,6 +179,8 @@ npm run build --report
 
 
 ### confirm 弹出框组件
+
+### playList组件
 
 
 
