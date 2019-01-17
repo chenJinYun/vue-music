@@ -2,7 +2,7 @@
  * @Author: kim.chen 
  * @Date: 2018-11-17 13:58:47 
  * @Last Modified by: kim.chen
- * @Last Modified time: 2018-12-22 16:04:56
+ * @Last Modified time: 2019-01-15 19:34:03
  */
 export const SET_SINGER = 'SET_SINGER'
 
@@ -23,3 +23,5 @@ export const SET_DISC = 'SET_DISC'
 export const SET_TOP_LIST = 'SET_TOP_LIST'
 
 export const SET_SEARCH_HISTORY = 'SET_SEARCH_HISTORY'
+
+export const SET_PLAY_HISTORY = 'SET_PLAY_HISTORY'

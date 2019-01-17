@@ -2,7 +2,7 @@
  * @Author: kim.chen 
  * @Date: 2018-11-21 18:58:05 
  * @Last Modified by: kim.chen
- * @Last Modified time: 2019-01-09 19:06:39
+ * @Last Modified time: 2019-01-15 19:42:30
  */
 import * as types from './mutation-types'
 import {
@@ -14,7 +14,8 @@ import {
 import {
   saveSearch,
   deleteSearch,
-  clearSearch
+  clearSearch,
+  savePlay
 } from 'common/js/cache'
 
 function findIndex(list, song) {
@@ -146,4 +147,8 @@ export const deleteSongList = function ({
   commit(types.SET_CURRENT_INDEX, -1)
   commit(types.SET_PLAYING_STATE, false)
 
+}
+
+export const savePlayHistory = function({commit},song){
+  commit(types.SET_PLAY_HISTORY,savePlay(song))
 }

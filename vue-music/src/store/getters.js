@@ -2,7 +2,7 @@
  * @Author: kim.chen 
  * @Date: 2018-11-17 14:01:00 
  * @Last Modified by: kim.chen
- * @Last Modified time: 2018-12-22 16:05:42
+ * @Last Modified time: 2019-01-15 19:34:43
  */
 export const singer = state => state.singer
 
@@ -27,3 +27,5 @@ export const disc = state => state.disc
 export const topList = state => state.topList
 
 export const searchHistory = state => state.searchHistory
+
+export const playHistory = state => state.playHistory

@@ -2,7 +2,7 @@
  * @Author: kim.chen 
  * @Date: 2018-11-24 15:33:07 
  * @Last Modified by: kim.chen
- * @Last Modified time: 2019-01-15 18:58:35
+ * @Last Modified time: 2019-01-17 19:08:18
  */
 
 import {
@@ -87,6 +87,7 @@ export const searchMixin = {
   data() {
     return {
       query: "",
+      refreshDelay: 100
     };
   },
   methods: {
